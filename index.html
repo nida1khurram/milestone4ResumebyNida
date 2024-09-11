@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Milestone 4 Editable Resume Builder by Nida Khurram</h1>
+    <form action="resumeForm" id="resumeForm">
+        <fieldset >
+            <legend>Personal Information</legend>
+            <label for="name">Full Name : </label>
+            <input type="text" name="name" id="name"  required><br/>
+
+            <label for="email">Email : </label>
+            <input type="email" id="email" name="email"  required><br/>
+
+            <label for="phone">Phone No : </label>
+            <input type="number" id="phone" name="phone"  required>
+            <!-- add profile pic -->
+            <label for="profilePicture">Profile Picture</label>
+            <input type="file" id="profilePicture" name="profilePicture" accept="image/*" required>
+        </fieldset>
+        <!-- education -->
+        <fieldset>
+            <legend>Education</legend>
+            <label for="education">Education</label>
+            <textarea name="education" id="education" rows="4" required></textarea><br/>
+        </fieldset>
+         <!-- experience -->
+         <fieldset>
+            <legend>Experience</legend>
+            <label for="experience">Experience</label>
+            <textarea name="experience" id="experience" rows="4" required></textarea><br/>
+        </fieldset>
+         <!-- skill -->
+         <fieldset>
+            <legend>Skills</legend>
+            <label for="skill">Skills</label>
+            <textarea name="skills" id="skills" rows="4" required></textarea><br/>
+         </fieldset>
+          <!-- interest -->
+          <fieldset>
+            <legend>Interest</legend>
+            <label for="interest">Interest</label>
+            <textarea name="interest" id="interest" rows="4" required></textarea><br/>
+         </fieldset>
+         <button type="button"  onclick="generateResume()">Generate Resume</button>
+    </form>
+    <!-- resume output -->
+     <div id="resumeOutput">
+     </div>
+     <script src="script.js"></script>
+</body>
+</html>
