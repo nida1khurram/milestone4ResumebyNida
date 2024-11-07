@@ -1,84 +1,102 @@
 
-function generateResume(): void {
 
-// provide type assertion all input
-// profile pic 1
-const profilePictureInput = document.getElementById('profilePicture') as HTMLInputElement;
+// Taking elements from HTML
+// This selects the HTML elements for the input form, the main resume builder section, and the output container where the resume will be displayed.
+const inputField = document.querySelector(".inputField") as HTMLFormElement;
+const main = document.querySelector(".resume-builder") as HTMLDivElement;
+const outputContainer = document.querySelector(".output_container") as HTMLDivElement;
 
-const nameElement = document.getElementById('name') as HTMLInputElement;
-const emailElement = document.getElementById('email') as HTMLInputElement;
-const phoneElement = document.getElementById('phone') as HTMLInputElement;
-const educationElement = document.getElementById('education') as HTMLInputElement;
-const experienceElement = document.getElementById('experience') as HTMLInputElement;
-const skillsElement = document.getElementById('skills') as HTMLInputElement;
-const interestElement = document.getElementById('interest') as HTMLInputElement;
+// Boolean Variable to Track Visibility:
+// A flag to check if the input form is currently hidden.
+let isHidden = true;
 
-// element condition
-// profile pic 2
-if(profilePictureInput && 
-    nameElement && emailElement && 
-    phoneElement && educationElement && experienceElement && 
-    skillsElement && interestElement){
-    // nameelement me jo value hogi name assign ho gi
-    const name = nameElement.value;
-    const email = emailElement.value;
-    const phone = phoneElement.value;
-    const education = educationElement.value;
-    const experience = experienceElement.value;
-    const skills = skillsElement.value;
-    const interest = interestElement.value;
 
- // profile pic 3
- const profilePictureFile = profilePictureInput.files?.[0]
- const profilePictureUrl = profilePictureFile ? URL.createObjectURL(profilePictureFile) : "";
+// Function to toggle between input form and resume preview
+// This function controls the visibility of the input form and the resume preview.
+function hide() {
 
-// create resume output //  profile pic 4
-const resumeOutput = `
-<h2><u><center>Resume </center></u></h2>
+    // Conditional Statement for Toggling:
+    // Checks if the input form is hidden.
+    if (isHidden) {
 
-${profilePictureUrl ? `<img src="${profilePictureUrl}" alt="profile pic" class="profilePicture">` : ""}
+        // Hide the input form and show the resume preview
+        // Hides the input form and sets the flag to false.
+        main.style.display = "none";
+        isHidden = false;
 
-<p contenteditable="true"> <u><strong>Full Name:</u></strong> <span contenteditable="true"> &nbsp; ${name} </span></p>
-<p contenteditable="true"> <u><strong>Email:</u></strong> <span contenteditable="true"> &nbsp; ${email} </span></p>
-<p contenteditable="true"> <u><strong>Phone No:</u></strong> <span contenteditable="true"> &nbsp; ${phone} </span></p>
+        // Select Profile Picture Input and Get File:
+        // Selects the profile picture input, retrieves the file, and initializes a variable for the picture URL.
+        const profilePictureInput = inputField.querySelector("#profilePicture") as HTMLInputElement;
+        const profilePictureFile = profilePictureInput?.files?.[0];
+        let profilePictureURL = "";
 
-<h3><u>Education: </u></h3>
-<p contenteditable="true"><span contenteditable="true">
-${education}</span></p>
+        // Create Object URL for the Picture File:
+        // Generates a URL for the uploaded picture file.
+        if (profilePictureFile) {
+            profilePictureURL = URL.createObjectURL(profilePictureFile);
+        }
 
-<h3><u>Experience: </u></h3>
-<p contenteditable="true"><span contenteditable="true">
-${experience}</span></p>
+        // Display Resume Preview:
+        // Sets the output container's display to block, making it visible.
+        outputContainer.style.display = "block";
 
-<h3><u>Skills: </u></h3>
-<p contenteditable="true"><span contenteditable="true">
-${skills}</span></p>
+        // Insert HTML for Resume Preview:
+        // Constructs the HTML structure for the resume preview, filling in the user's inputs and displaying the profile picture if provided.
+        outputContainer.innerHTML = `
+            <div class="output">
+                <div class="heading">
+                ${profilePictureURL ? `<img src="${profilePictureURL}" alt="Profile Image" class="profile-pic">` : ""}
+                    <h1>${(inputField["name"] as unknown as HTMLInputElement).value}</h1>
+                    <h4>${(inputField["title"] as unknown as HTMLInputElement).value}</h4>
+                    
+                </div>
+                <div class="info">
+                    <div class="left">
+                        <div class="box">
+                            <h2>Objective</h2>
+                            <p>${(inputField["objective"] as unknown as HTMLTextAreaElement).value}</p>
+                        </div>
+                        <div class="box">
+                            <h2>Skills</h2>
+                            <p>
+                            ${(inputField["skills"] as unknown as HTMLTextAreaElement).value}</p>
+                        </div>
+                        <div class="box">
+                            <h2>Academic Details</h2>
+                            <p>${(inputField["academic_details"] as unknown as HTMLTextAreaElement).value}</p>
+                        </div>
+                        <div class="box">
+                            <h2>Contact</h2>
+                            <p>${(inputField["contact"] as unknown as HTMLInputElement).value}</p>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="box">
+                            <h2>Work Experience</h2>
+                            <p>${(inputField["work_experience"] as unknown as HTMLTextAreaElement).value}</p>
+                        </div>
+                        <div class="box">
+                            <h2>Achievements</h2>
+                            <p>${(inputField["activities"] as unknown as HTMLTextAreaElement).value}</p>
+                        </div>
+                        <div class="box">
+                            <h2>Activities & Interest</h2>
+                            <p>${(inputField["activities"] as unknown as HTMLTextAreaElement).value}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="print()">Print Resume</button>
+        `;
 
-<h3><u>Interest: </u></h3>
-<p contenteditable="true"><span contenteditable="true">
-${interest}</span></p>
-`;
+        // Show Input Form and Hide Resume Preview:
+        // Reverts back to showing the input form and hiding the resume preview when toggled again.
+    } else {
+        // Show the input form and hide the resume preview
+        main.style.display = "block";
+        isHidden = true;
 
-const resumeOutputElement = document.getElementById('resumeOutput')
-if(resumeOutputElement){
-    resumeOutputElement.innerHTML = resumeOutput;
-    makeEditable();
-}
-}else{
-    console.error('one or more elements are missing')
-}
-};
-
-// editable func
-function   makeEditable():void{
-    const tagNames:string[]=['p', 'span'];
-    tagNames.forEach((tagName)=>{
-        // select all element by tag name
-        const elements = document.querySelectorAll(tagName);
-        elements.forEach((element)=>{ 
-        // set content editable true
-        (element as HTMLElement).setAttribute("contenteditable","true");
-    });
-
-});
+        outputContainer.style.display = "none";
+        outputContainer.innerHTML = "";
+    }
 }

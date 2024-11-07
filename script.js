@@ -1,54 +1,46 @@
-function generateResume() {
+// Taking elements from HTML
+// This selects the HTML elements for the input form, the main resume builder section, and the output container where the resume will be displayed.
+var inputField = document.querySelector(".inputField");
+var main = document.querySelector(".resume-builder");
+var outputContainer = document.querySelector(".output_container");
+// Boolean Variable to Track Visibility:
+// A flag to check if the input form is currently hidden.
+var isHidden = true;
+// Function to toggle between input form and resume preview
+// This function controls the visibility of the input form and the resume preview.
+function hide() {
     var _a;
-    // provide type assertion all input
-    // profile pic 1
-    var profilePictureInput = document.getElementById('profilePicture');
-    var nameElement = document.getElementById('name');
-    var emailElement = document.getElementById('email');
-    var phoneElement = document.getElementById('phone');
-    var educationElement = document.getElementById('education');
-    var experienceElement = document.getElementById('experience');
-    var skillsElement = document.getElementById('skills');
-    var interestElement = document.getElementById('interest');
-    // element condition
-    // profile pic 2
-    if (profilePictureInput &&
-        nameElement && emailElement &&
-        phoneElement && educationElement && experienceElement &&
-        skillsElement && interestElement) {
-        // nameelement me jo value hogi name assign ho gi
-        var name_1 = nameElement.value;
-        var email = emailElement.value;
-        var phone = phoneElement.value;
-        var education = educationElement.value;
-        var experience = experienceElement.value;
-        var skills = skillsElement.value;
-        var interest = interestElement.value;
-        // profile pic 3
-        var profilePictureFile = (_a = profilePictureInput.files) === null || _a === void 0 ? void 0 : _a[0];
-        var profilePictureUrl = profilePictureFile ? URL.createObjectURL(profilePictureFile) : "";
-        // create resume output //  profile pic 4
-        var resumeOutput = "\n<h2><u><center>Resume </center></u></h2>\n\n".concat(profilePictureUrl ? "<img src=\"".concat(profilePictureUrl, "\" alt=\"profile pic\" class=\"profilePicture\">") : "", "\n\n<p contenteditable=\"true\"> <u><strong>Full Name:</u></strong> <span contenteditable=\"true\"> &nbsp; ").concat(name_1, " </span></p>\n<p contenteditable=\"true\"> <u><strong>Email:</u></strong> <span contenteditable=\"true\"> &nbsp; ").concat(email, " </span></p>\n<p contenteditable=\"true\"> <u><strong>Phone No:</u></strong> <span contenteditable=\"true\"> &nbsp; ").concat(phone, " </span></p>\n\n<h3><u>Education: </u></h3>\n<p contenteditable=\"true\"><span contenteditable=\"true\">\n").concat(education, "</span></p>\n\n<h3><u>Experience: </u></h3>\n<p contenteditable=\"true\"><span contenteditable=\"true\">\n").concat(experience, "</span></p>\n\n<h3><u>Skills: </u></h3>\n<p contenteditable=\"true\"><span contenteditable=\"true\">\n").concat(skills, "</span></p>\n\n<h3><u>Interest: </u></h3>\n<p contenteditable=\"true\"><span contenteditable=\"true\">\n").concat(interest, "</span></p>\n");
-        var resumeOutputElement = document.getElementById('resumeOutput');
-        if (resumeOutputElement) {
-            resumeOutputElement.innerHTML = resumeOutput;
-            makeEditable();
+    // Conditional Statement for Toggling:
+    // Checks if the input form is hidden.
+    if (isHidden) {
+        // Hide the input form and show the resume preview
+        // Hides the input form and sets the flag to false.
+        main.style.display = "none";
+        isHidden = false;
+        // Select Profile Picture Input and Get File:
+        // Selects the profile picture input, retrieves the file, and initializes a variable for the picture URL.
+        var profilePictureInput = inputField.querySelector("#profilePicture");
+        var profilePictureFile = (_a = profilePictureInput === null || profilePictureInput === void 0 ? void 0 : profilePictureInput.files) === null || _a === void 0 ? void 0 : _a[0];
+        var profilePictureURL = "";
+        // Create Object URL for the Picture File:
+        // Generates a URL for the uploaded picture file.
+        if (profilePictureFile) {
+            profilePictureURL = URL.createObjectURL(profilePictureFile);
         }
+        // Display Resume Preview:
+        // Sets the output container's display to block, making it visible.
+        outputContainer.style.display = "block";
+        // Insert HTML for Resume Preview:
+        // Constructs the HTML structure for the resume preview, filling in the user's inputs and displaying the profile picture if provided.
+        outputContainer.innerHTML = "\n            <div class=\"output\">\n                <div class=\"heading\">\n                ".concat(profilePictureURL ? "<img src=\"".concat(profilePictureURL, "\" alt=\"Profile Image\" class=\"profile-pic\">") : "", "\n                    <h1>").concat(inputField["name"].value, "</h1>\n                    <h4>").concat(inputField["title"].value, "</h4>\n                    \n                </div>\n                <div class=\"info\">\n                    <div class=\"left\">\n                        <div class=\"box\">\n                            <h2>Objective</h2>\n                            <p>").concat(inputField["objective"].value, "</p>\n                        </div>\n                        <div class=\"box\">\n                            <h2>Skills</h2>\n                            <p>\n                            ").concat(inputField["skills"].value, "</p>\n                        </div>\n                        <div class=\"box\">\n                            <h2>Academic Details</h2>\n                            <p>").concat(inputField["academic_details"].value, "</p>\n                        </div>\n                        <div class=\"box\">\n                            <h2>Contact</h2>\n                            <p>").concat(inputField["contact"].value, "</p>\n                        </div>\n                    </div>\n                    <div class=\"right\">\n                        <div class=\"box\">\n                            <h2>Work Experience</h2>\n                            <p>").concat(inputField["work_experience"].value, "</p>\n                        </div>\n                        <div class=\"box\">\n                            <h2>Achievements</h2>\n                            <p>").concat(inputField["activities"].value, "</p>\n                        </div>\n                        <div class=\"box\">\n                            <h2>Activities & Interest</h2>\n                            <p>").concat(inputField["activities"].value, "</p>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <button onclick=\"print()\">Print Resume</button>\n        ");
+        // Show Input Form and Hide Resume Preview:
+        // Reverts back to showing the input form and hiding the resume preview when toggled again.
     }
     else {
-        console.error('one or more elements are missing');
+        // Show the input form and hide the resume preview
+        main.style.display = "block";
+        isHidden = true;
+        outputContainer.style.display = "none";
+        outputContainer.innerHTML = "";
     }
-}
-;
-// editable func
-function makeEditable() {
-    var tagNames = ['p', 'span'];
-    tagNames.forEach(function (tagName) {
-        // select all element by tag name
-        var elements = document.querySelectorAll(tagName);
-        elements.forEach(function (element) {
-            // set content editable true
-            element.setAttribute("contenteditable", "true");
-        });
-    });
 }
